@@ -1,7 +1,7 @@
 ﻿@model List<DairyFarm.Models.Domain.Cattle>
 
 @{
-    int totalCows = Model.Count;
+    int totalCows = Model?.Count ?? 0;
 
     int totalDailyMilk = 0;
     float totalTemperature = 0;
@@ -29,7 +29,10 @@
         }
     }
 
-    float averageTemperature = totalTemperature / totalCows;
+   var averageAge = totalCows > 0 ? totalAge / totalCows : 0;
+    var averagePrice = totalCows > 0 ? totalPrice / totalCows : 0;
+
+    float averageTemperature = totalCows > 0 ? totalTemperature / totalCows : 0;
 }
 
 <div class="milk-container">
@@ -72,7 +75,7 @@
                 </div>
                 <div class="summary-boxes-box">
                     <p>Average Price</p>
-                    <h3>@(totalPrice / totalCows) PKR</h3>
+                    <h3>@averagePrice PKR</h3>
                 </div>
                 <div class="summary-boxes-box">
                     <p>Normal Deliveries</p>
@@ -84,7 +87,7 @@
                 </div>
                 <div class="summary-boxes-box">
                     <p>Average Age</p>
-                    <h3>@(totalAge / totalCows)</h3>
+                    <h3>@averageAge</h3>
                 </div>
             </div>
         </div>
@@ -94,7 +97,7 @@
 
 @{
     var labels = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-    var data = new List<int>() { 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650 };
+    var data = Model?.Select(cattle => cattle.DailyMilk).ToList() ?? new List<int>();
     int totalAnnualMilk = data.Sum() * 12;
 }
 

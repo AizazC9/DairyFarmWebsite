@@ -33,9 +33,6 @@ namespace DairyFarm.Controllers
             var cattle = await DBcontext.Cattles.ToListAsync();
             return View(cattle);
 }
-        
-
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
